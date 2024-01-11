@@ -26,10 +26,9 @@ SECRET_KEY = os.environ['SECRET_KEY']
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = [
-    '0.0.0.0',
-]
+ALLOWED_HOSTS = []
 AUTH_USER_MODEL = 'main_site.User'
+PORT = 10000
 
 # Application definition
 

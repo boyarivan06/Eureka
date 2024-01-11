@@ -3,4 +3,4 @@ Django
 gunicorn==21.2.0
 packaging==23.2
 sqlparse==0.4.4
-typing-extensions==4.9.0
+typing-extensions

@@ -13,3 +13,8 @@ class RegisterForm(Form):
 class LoginForm(Form):
     username = CharField(required=True)
     password = CharField(required=True)
+
+
+class IdeaForm(Form):
+    name = CharField(max_length=255, required=True)
+    description = CharField(max_length=1000, required=True)

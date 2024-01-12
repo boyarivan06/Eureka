@@ -26,7 +26,9 @@ SECRET_KEY = os.environ.get('SECRET_KEY', '@4i_-#xs_uzp#@y3)8gj1e)@f&hu3t25a4fw5
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    '*'
+]
 AUTH_USER_MODEL = 'main_site.User'
 PORT = 10000
 

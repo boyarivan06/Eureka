@@ -82,3 +82,11 @@ def new_idea_view(request):
             return redirect('index')
     context['form'] = IdeaForm()
     return render(request, 'new_idea.html', context)
+
+
+@login_required
+def profile_view(request):
+    context = {
+        'user': request.user
+    }
+    return render(request, 'profile.html', context)

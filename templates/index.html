@@ -10,7 +10,7 @@
     <h1>привет, это проджект эурека</h1>
     {% if user.is_authenticated %}
     <ul class="nav justify-content-end">
-        <li><a href="#" class="nav-link">Профиль</a></li>
+        <li><a href="{% url 'profile' %}" class="nav-link">Профиль</a></li>
        <li><a class="nav-link" href="{% url 'logout' %}">Выйти</a></li>
     </ul>
     <a href="{% url 'new_idea' %}" class="btn btn-success">Добавить идею</a>

@@ -1,6 +1,22 @@
-def main():
-    print()
+from django.contrib.auth import login, logout
+from django.http import JsonResponse, HttpResponse
+from django.shortcuts import render, redirect
+from string import ascii_uppercase, ascii_lowercase, digits
+from django.contrib.auth.decorators import login_required
+from main_site.models import User, Idea
 
- 
-if __name__ == "__main__":
-    main()
+
+@login_required
+def add_like(request, id):
+    obj = Idea.objects.filter(id=id).first()
+    obj.likes += 1
+    obj.save()
+    return HttpResponse(200)
+
+
+@login_required
+def add_dislike(request, id):
+    obj = Idea.objects.filter(id=id).first()
+    obj.dislikes += 1
+    obj.save()
+    return HttpResponse(200)

@@ -17,6 +17,7 @@ class Idea(Model):
     dislikes = IntegerField(default=0)
 
 
+
 class Tag(Model):
     name = CharField(max_length=64)
     ideas = ManyToManyField(Idea)

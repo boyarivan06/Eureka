@@ -1,4 +1,5 @@
 from django.contrib.auth import login, logout
+from django.http import JsonResponse
 from django.shortcuts import render, redirect
 from string import ascii_uppercase, ascii_lowercase, digits
 from django.contrib.auth.decorators import login_required
@@ -34,10 +35,10 @@ def registration_view(request):
                 context['message'] = 'Введите электронную почту'
             else:
                 user = User(username=form.cleaned_data['username'].lower(),
-                               first_name=form.cleaned_data['first_name'],
-                               last_name=form.cleaned_data['last_name'],
-                               email=form.cleaned_data['email'].lower( )
-                               )
+                            first_name=form.cleaned_data['first_name'],
+                            last_name=form.cleaned_data['last_name'],
+                            email=form.cleaned_data['email'].lower()
+                            )
                 user.set_password(form.cleaned_data['password'])
                 user.save()
                 login(request, user)
@@ -87,6 +88,7 @@ def new_idea_view(request):
 @login_required
 def profile_view(request):
     context = {
-        'user': request.user
+        'user': request.user,
+        'ideas': Idea.objects.filter(author=request.user).first()
     }
     return render(request, 'profile.html', context)

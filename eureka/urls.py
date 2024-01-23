@@ -17,6 +17,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 import main_site.views as views
+import main_site.api_views as api_views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -25,6 +26,7 @@ urlpatterns = [
     path('logout/', views.logout_view, name='logout'),
     path('register/', views.registration_view, name='registration'),
     path('new_idea/', views.new_idea_view, name='new_idea'),
-    path('profile/', views.profile_view, name='profile')
-
+    path('profile/', views.profile_view, name='profile'),
+    path('add_like/<int:id>/', api_views.add_like),
+    path('add_dislike/<int:id>/', api_views.add_dislike),
 ]

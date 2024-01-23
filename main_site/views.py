@@ -2,8 +2,8 @@ from django.contrib.auth import login, logout
 from django.shortcuts import render, redirect
 from string import ascii_uppercase, ascii_lowercase, digits
 from django.contrib.auth.decorators import login_required
-from main_site.forms import RegisterForm, LoginForm
-from main_site.models import User
+from main_site.forms import RegisterForm, LoginForm, IdeaForm
+from main_site.models import User, Idea
 
 
 def password_is_valid(raw_password):
@@ -12,7 +12,12 @@ def password_is_valid(raw_password):
 
 
 def index_view(request):
-    return render(request, 'index.html', {'user': request.user})
+    context = {
+        'user': request.user,
+        'ideas': Idea.objects.all()
+    }
+
+    return render(request, 'index.html', context)
 
 
 def registration_view(request):
@@ -21,19 +26,19 @@ def registration_view(request):
         form = RegisterForm(request.POST)
 
         if form.is_valid():
-            if form.data['password'] != form.data['password_repeat']:
+            if form.cleaned_data['password'] != form.cleaned_data['password_repeat']:
                 context['message'] = f'Пароли не совпадают'
-            elif not password_is_valid(form.data['password']):
+            elif not password_is_valid(form.cleaned_data['password']):
                 context['message'] = f'Пароль ненадёжен'
-            elif not form.data['email']:
+            elif not form.cleaned_data['email']:
                 context['message'] = 'Введите электронную почту'
             else:
-                user = User(username=form.data['username'].lower(),
-                               first_name=form.data['first_name'],
-                               last_name=form.data['last_name'],
-                               email=form.data['email'].lower( )
+                user = User(username=form.cleaned_data['username'].lower(),
+                               first_name=form.cleaned_data['first_name'],
+                               last_name=form.cleaned_data['last_name'],
+                               email=form.cleaned_data['email'].lower( )
                                )
-                user.set_password(form.data['password'])
+                user.set_password(form.cleaned_data['password'])
                 user.save()
                 login(request, user)
                 return redirect('index')
@@ -48,10 +53,10 @@ def login_view(request):
         form = LoginForm(request.POST)
         if form.is_valid():
             print('form is valid')
-            user = User.objects.filter(username=form.data['username']).first()
+            user = User.objects.filter(username=form.cleaned_data['username']).first()
             if not user:
-                user = User.objects.filter(email=form.data['username'])
-            if not user or not user.check_password(form.data['password']):
+                user = User.objects.filter(email=form.cleaned_data['username'])
+            if not user or not user.check_password(form.cleaned_data['password']):
                 context['message'] = 'Неверное имя пользователя или пароль'
             else:
                 login(request, user)
@@ -63,3 +68,17 @@ def login_view(request):
 def logout_view(request):
     logout(request)
     return redirect('index')
+
+
+@login_required
+def new_idea_view(request):
+    context = dict()
+    if request.method == 'POST':
+        form = IdeaForm(request.POST)
+        if form.is_valid():
+            idea = Idea(name=form.cleaned_data['name'], description=form.cleaned_data['description'],
+                        author=request.user)
+            idea.save()
+            return redirect('index')
+    context['form'] = IdeaForm()
+    return render(request, 'new_idea.html', context)

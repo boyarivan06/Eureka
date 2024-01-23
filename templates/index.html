@@ -9,7 +9,21 @@
 <body>
     <h1>привет, это проджект эурека</h1>
     {% if user.is_authenticated %}
-    <a class="btn btn-secondary" href="{% url 'logout' %}">Выйти</a>
+    <ul class="nav justify-content-end">
+        <li><a href="#" class="nav-link">Профиль</a></li>
+       <li><a class="nav-link" href="{% url 'logout' %}">Выйти</a></li>
+    </ul>
+    <a href="{% url 'new_idea' %}" class="btn btn-success">Добавить идею</a>
+    <div class="container">
+        {% for idea in ideas %}
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">{{idea.name}}</h5>
+                <p class="card-text">{{idea.description}}</p>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
     {% else %}
     <a class="btn btn-secondary" href="{% url 'login' %}">Вход</a>
     <a class="btn btn-primary" href="{% url 'registration' %}">Регистрация</a>

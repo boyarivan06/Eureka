@@ -1,4 +1,4 @@
-from django.forms import Form, CharField
+from django.forms import Form, CharField, Textarea
 
 
 class RegisterForm(Form):
@@ -8,6 +8,7 @@ class RegisterForm(Form):
     first_name = CharField(max_length=255, required=True)
     last_name = CharField(max_length=255, required=True)
     phone = CharField(max_length=20, required=False)
+    info = CharField(max_length=1024, widget=Textarea)
 
 
 class LoginForm(Form):
@@ -17,4 +18,4 @@ class LoginForm(Form):
 
 class IdeaForm(Form):
     name = CharField(max_length=255, required=True)
-    description = CharField(max_length=1000, required=True)
+    description = CharField(max_length=1024, required=True, widget=Textarea)

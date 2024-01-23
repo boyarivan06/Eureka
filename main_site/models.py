@@ -11,7 +11,7 @@ class User(AbstractUser):
 
 class Idea(Model):
     name = CharField(max_length=265)
-    description = CharField(max_length=4096)
+    description = CharField(max_length=1024)
     author = ForeignKey(to=User, on_delete=CASCADE, default=1)
     likes = IntegerField(default=0)
     dislikes = IntegerField(default=0)

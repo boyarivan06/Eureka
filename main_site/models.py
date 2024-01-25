@@ -7,6 +7,7 @@ class User(AbstractUser):
     teams = ManyToManyField('Team')
     tags = ManyToManyField('Tag')
     info = CharField(max_length=1024)
+    votings = ManyToManyField('Idea')
 
 
 class Idea(Model):

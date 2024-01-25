@@ -9,14 +9,18 @@ from main_site.models import User, Idea
 @login_required
 def add_like(request, id):
     obj = Idea.objects.filter(id=id).first()
-    obj.likes += 1
-    obj.save()
+    if obj not in request.user.votings.all():
+        obj.likes += 1
+        obj.save()
+        request.user.votings.add(obj)
     return HttpResponse(200)
 
 
 @login_required
 def add_dislike(request, id):
     obj = Idea.objects.filter(id=id).first()
-    obj.dislikes += 1
-    obj.save()
+    if obj not in request.user.votings.all():
+        obj.dislikes += 1
+        obj.save()
+        request.user.votings.add(obj)
     return HttpResponse(200)

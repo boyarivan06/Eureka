@@ -7,6 +7,7 @@ class User(AbstractUser):
     teams = ManyToManyField('Team')
     tags = ManyToManyField('Tag')
     info = CharField(max_length=1024)
+    votings = ManyToManyField('Idea')
 
 
 class Idea(Model):
@@ -15,7 +16,6 @@ class Idea(Model):
     author = ForeignKey(to=User, on_delete=CASCADE, default=1)
     likes = IntegerField(default=0)
     dislikes = IntegerField(default=0)
-
 
 
 class Tag(Model):

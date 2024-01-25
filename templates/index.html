@@ -12,11 +12,12 @@
 <body>
     <h1>привет, это проджект эурека</h1>
     {% if user.is_authenticated %}
+
     <ul class="nav justify-content-end">
         <li><a href="{% url 'profile' %}" class="nav-link">Профиль</a></li>
        <li><a class="nav-link" href="{% url 'logout' %}">Выйти</a></li>
     </ul>
-
+    <h3>{{user.first_name}} {{user.last_name}}</h3>
     {% else %}
     <a class="btn btn-secondary" href="{% url 'login' %}">Вход</a>
     <a class="btn btn-primary" href="{% url 'registration' %}">Регистрация</a>

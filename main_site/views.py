@@ -24,45 +24,52 @@ def index_view(request):
 def registration_view(request):
     context = {}
     if request.method == 'POST':
+        print('catch post')
         form = RegisterForm(request.POST)
 
         if form.is_valid():
-            if form.cleaned_data['password'] != form.cleaned_data['password_repeat']:
+            print('form is valid')
+            if form.data['password'] != form.data['password_repeat']:
                 context['message'] = f'Пароли не совпадают'
-            elif not password_is_valid(form.cleaned_data['password']):
+            elif not password_is_valid(form.data['password']):
                 context['message'] = f'Пароль ненадёжен'
-            elif not form.cleaned_data['email']:
+            elif not form.data['email']:
                 context['message'] = 'Введите электронную почту'
             else:
-                user = User(username=form.cleaned_data['username'].lower(),
-                            first_name=form.cleaned_data['first_name'],
-                            last_name=form.cleaned_data['last_name'],
-                            email=form.cleaned_data['email'].lower()
+                user = User(username=form.data['username'].lower(),
+                            first_name=form.data['first_name'],
+                            last_name=form.data['last_name'],
+                            email=form.data['email'].lower()
                             )
-                user.set_password(form.cleaned_data['password'])
+                user.set_password(form.data['password'])
                 user.save()
                 login(request, user)
                 return redirect('index')
-    context['form'] = RegisterForm()
+        context['message'] = 'form is not valid !!'
+    else:
+        form = RegisterForm()
+    context['form'] = form
     return render(request, "reg.html", context)
 
 
 def login_view(request):
     context = {}
     if request.method == 'POST':
-        print('catch post')
+
         form = LoginForm(request.POST)
         if form.is_valid():
-            print('form is valid')
-            user = User.objects.filter(username=form.cleaned_data['username']).first()
+
+            user = User.objects.filter(username=form.data['username']).first()
             if not user:
-                user = User.objects.filter(email=form.cleaned_data['username'])
-            if not user or not user.check_password(form.cleaned_data['password']):
+                user = User.objects.filter(email=form.data['username'])
+            if not user or not user.check_password(form.data['password']):
                 context['message'] = 'Неверное имя пользователя или пароль'
             else:
                 login(request, user)
                 return redirect('index')
-    context['form'] = RegisterForm()
+    else:
+        form = LoginForm()
+    context['form'] = form
     return render(request, 'login.html', context)
 
 
@@ -77,7 +84,7 @@ def new_idea_view(request):
     if request.method == 'POST':
         form = IdeaForm(request.POST)
         if form.is_valid():
-            idea = Idea(name=form.cleaned_data['name'], description=form.cleaned_data['description'],
+            idea = Idea(name=form.data['name'], description=form.data['description'],
                         author=request.user)
             idea.save()
             return redirect('index')

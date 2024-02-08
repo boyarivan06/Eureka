@@ -19,3 +19,9 @@ class LoginForm(Form):
 class IdeaForm(Form):
     name = CharField(max_length=255, required=True)
     description = CharField(max_length=1024, required=True, widget=Textarea)
+
+
+class SetIdeaForm(Form):
+    id = CharField(max_length=100, required=True)
+    name = CharField(max_length=255, required=True)
+    description = CharField(max_length=1024, required=True, widget=Textarea)

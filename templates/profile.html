@@ -15,14 +15,18 @@
   <h4>{{user.first_name}} {{user.last_name}}</h4>
   <p>{{user.info}}</p>
 </div>
+<a href="{% url 'new_idea' %}" class="btn btn-success">Добавить идею</a>
 <div class="container">
         {% for idea in ideas %}
         <div class="card" id="idea{{idea.id}}">
             <div class="card-body">
-                <h5 class="card-title">{{idea.name}}</h5>
-                <p class="card-text">{{idea.description}}</p>
-                <div class="button-group">
-                </div>
+                <form action="#" method="post">
+                    {% csrf_token %}
+                    <input type="hidden" name="id" value="{{idea.id}}">
+                    <h5 class="card-title"><input type="text" name="name" value="{{idea.name}}"></h5>
+                    <textarea name="description" class="card-text">{{idea.description}}</textarea>
+                    <input class="btn btn-primary" type="submit" value="Сохранить изменения">
+                </form>
                 <p class="p-2" id='likes{{idea.id}}' style="color:green; display:inline">{{idea.likes}}</p>
                 <p class="p-2" id='dislikes{{idea.id}}' style="color:red; display:inline">{{idea.dislikes}}</p>
                 <p class="btn btn-danger" onclick="delete_idea({{idea.id}})">Удалить</p>

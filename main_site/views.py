@@ -3,7 +3,7 @@ from django.http import JsonResponse
 from django.shortcuts import render, redirect
 from string import ascii_uppercase, ascii_lowercase, digits
 from django.contrib.auth.decorators import login_required
-from main_site.forms import RegisterForm, LoginForm, IdeaForm
+from main_site.forms import RegisterForm, LoginForm, IdeaForm, SetIdeaForm
 from main_site.models import User, Idea
 
 
@@ -94,6 +94,13 @@ def new_idea_view(request):
 
 @login_required
 def profile_view(request):
+    if request.method == 'POST':
+        form = SetIdeaForm(request.POST)
+        if form.is_valid():
+            idea = Idea.objects.filter(id=form.data['id']).first()
+            idea.name = form.data['name']
+            idea.description = form.data['description']
+            idea.save()
     context = {
         'user': request.user,
         'ideas': Idea.objects.filter(author=request.user).all()

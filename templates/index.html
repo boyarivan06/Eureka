@@ -29,6 +29,7 @@
             <div class="card-body">
                 <h5 class="card-title">{{idea.name}}</h5>
                 <p class="card-text">{{idea.description}}</p>
+                <img class="card-img" src="{{idea.image.url}}" alt="">
                 <div class="button-group">
                     <p class="btn btn-success" onclick="add_like({{idea.id}})">+</p>
                     <p class="btn btn-danger" onclick="add_dislike({{idea.id}})">-</p>

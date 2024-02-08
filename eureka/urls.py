@@ -18,6 +18,9 @@ from django.contrib import admin
 from django.urls import path
 import main_site.views as views
 import main_site.api_views as api_views
+from django.conf import settings
+from django.conf.urls.static import static
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -31,3 +34,8 @@ urlpatterns = [
     path('add_dislike/<int:id>/', api_views.add_dislike),
     path('delete_idea/<int:id>/', api_views.delete_idea),
 ]
+
+
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL,
+                          document_root=settings.MEDIA_ROOT)

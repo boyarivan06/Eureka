@@ -25,7 +25,7 @@ def registration_view(request):
     context = {}
     if request.method == 'POST':
         print('catch post')
-        form = RegisterForm(request.POST)
+        form = RegisterForm(request.POST, request.FILES)
 
         if form.is_valid():
             print('form is valid')
@@ -39,7 +39,8 @@ def registration_view(request):
                 user = User(username=form.data['username'].lower(),
                             first_name=form.data['first_name'],
                             last_name=form.data['last_name'],
-                            email=form.data['email'].lower()
+                            email=form.data['email'].lower(),
+                            image=form.data['image']
                             )
                 user.set_password(form.data['password'])
                 user.save()
@@ -82,10 +83,11 @@ def logout_view(request):
 def new_idea_view(request):
     context = dict()
     if request.method == 'POST':
-        form = IdeaForm(request.POST)
+        form = IdeaForm(request.POST, request.FILES)
         if form.is_valid():
             idea = Idea(name=form.data['name'], description=form.data['description'],
-                        author=request.user)
+                        author=request.user,
+                        image=form.data['image'])
             idea.save()
             return redirect('index')
     context['form'] = IdeaForm()

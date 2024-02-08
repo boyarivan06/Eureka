@@ -12,7 +12,7 @@ def add_like(request, id):
     if obj not in request.user.votings.all():
         obj.likes += 1
         obj.save()
-        request.user.votings.add(obj)
+        # request.user.votings.add(obj)
     return HttpResponse(200)
 
 
@@ -22,5 +22,5 @@ def add_dislike(request, id):
     if obj not in request.user.votings.all():
         obj.dislikes += 1
         obj.save()
-        request.user.votings.add(obj)
+        # request.user.votings.add(obj)
     return HttpResponse(200)

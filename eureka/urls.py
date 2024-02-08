@@ -29,4 +29,5 @@ urlpatterns = [
     path('profile/', views.profile_view, name='profile'),
     path('add_like/<int:id>/', api_views.add_like),
     path('add_dislike/<int:id>/', api_views.add_dislike),
+    path('delete_idea/<int:id>/', api_views.delete_idea),
 ]

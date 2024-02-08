@@ -96,6 +96,6 @@ def new_idea_view(request):
 def profile_view(request):
     context = {
         'user': request.user,
-        'ideas': Idea.objects.filter(author=request.user).first()
+        'ideas': Idea.objects.filter(author=request.user).all()
     }
     return render(request, 'profile.html', context)

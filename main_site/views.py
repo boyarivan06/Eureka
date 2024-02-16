@@ -40,7 +40,7 @@ def registration_view(request):
                             first_name=form.data['first_name'],
                             last_name=form.data['last_name'],
                             email=form.data['email'].lower(),
-                            image=form.data['image']
+                            image=form.files['image']
                             )
                 user.set_password(form.data['password'])
                 user.save()
@@ -82,27 +82,32 @@ def logout_view(request):
 @login_required
 def new_idea_view(request):
     context = dict()
+    context['form'] = IdeaForm()
     if request.method == 'POST':
+        print('catch post in new idea')
         form = IdeaForm(request.POST, request.FILES)
         if form.is_valid():
-            idea = Idea(name=form.data['name'], description=form.data['description'],
+            print('form is valid')
+            idea = Idea(name=form.data['name'],
+                        description=form.data['description'],
                         author=request.user,
-                        image=form.data['image'])
+                        image=form.files['image'])
             idea.save()
             return redirect('index')
-    context['form'] = IdeaForm()
+        context['form'] = form
     return render(request, 'new_idea.html', context)
 
 
 @login_required
 def profile_view(request):
     if request.method == 'POST':
-        form = SetIdeaForm(request.POST)
-        if form.is_valid():
-            idea = Idea.objects.filter(id=form.data['id']).first()
-            idea.name = form.data['name']
-            idea.description = form.data['description']
-            idea.save()
+        if request.POST['action_type'] == 'set_idea':
+            form = SetIdeaForm(request.POST)
+            if form.is_valid():
+                idea = Idea.objects.filter(id=form.data['id']).first()
+                idea.name = form.data['name']
+                idea.description = form.data['description']
+                idea.save()
     context = {
         'user': request.user,
         'ideas': Idea.objects.filter(author=request.user).all()

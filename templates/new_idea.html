@@ -5,10 +5,10 @@
     <title>Новая идея</title>
 </head>
 <body>
-<form action="#" method="post">
+<form action="#" method="post" enctype="multipart/form-data">
     {% csrf_token %}
     {{form.as_p}}
-    <button type="submit">Создать</button>
+    <input type="submit" value="Создать">
 </form>
 </body>
 </html>

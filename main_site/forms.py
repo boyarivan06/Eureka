@@ -19,7 +19,7 @@ class LoginForm(Form):
 
 class IdeaForm(Form):
     name = CharField(max_length=255, required=True)
-    description = CharField(max_length=1024, required=True, widget=Textarea)
+    description = CharField(max_length=1024, widget=Textarea, required=False)
     image = ImageField()
 
 

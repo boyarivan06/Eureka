@@ -20,7 +20,6 @@ class Idea(Model):
     image = ImageField(upload_to='images/', default='images/idea.jpg')
 
 
-
 class Tag(Model):
     name = CharField(max_length=64)
     ideas = ManyToManyField(Idea)

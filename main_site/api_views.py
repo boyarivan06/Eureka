@@ -27,8 +27,18 @@ def add_dislike(request, id):
         return HttpResponse('Ok')
     return HttpResponseForbidden('можно голосовать только один раз')
 
+
 @login_required
 def delete_idea(request, id):
     idea = Idea.objects.filter(id=id).first()
     idea.delete()
     return HttpResponse(200)
+
+
+def get_ideas(request):
+    ideas = Idea.objects.all()
+    data = {'ideas': [{'id': idea.id, 'description':idea.description,
+                       'name': idea.name, 'author_id': idea.author.id,
+                       'likes': idea.likes, 'dislikes': idea.dislikes} for idea in ideas]}
+    print(data)
+    return JsonResponse(data)

@@ -8,88 +8,95 @@
 </head>
 <body>
     <div class="position-absolute top-0 start-50 translate-middle-x">
-            <form action="#" class="authorization__form" method="post">
-                {% csrf_token %}
-                <div class="authorization__items">
-                    <h2 class="authorization__title">
-                        Добро пожаловать!
-                    </h2>
-                    <p class="authorization__text">
-                        Пожалуйста, зарегистрируйтесь, чтобы получить доступ к возможностям приложения
-                    </p>
+        <form action="#" class="authorization__form" method="post">
+            {% csrf_token %}
 
+            {{form.as_p}}
+            <input type="submit" value="Зарегистрироваться">
+        </form>
 
-                        <div class="col-md-4 position-relative">
-                            <label for="validationTooltip01" class="form-label">Имя</label>
-                            <input name="first_name" type="text" class="form-control" id="validationTooltip01" placeholder="Введите имя" required>
-                            <div class="valid-tooltip">
-                                Looks good!
-                            </div>
-                        </div>
-
-                        <div class="col-md-4 position-relative">
-                            <label for="validationTooltip02" class="form-label">Фамилия</label>
-                            <input name="last_name" type="text" class="form-control" id="validationTooltip02" placeholder="Введите фамилию" required>
-                            <div class="valid-tooltip">
-                                Looks good!
-                            </div>
-                        </div>
-
-                        <div class="col-md-4 position-relative">
-                            <label for="validationTooltipUsername" class="form-label">Введите почту</label>
-
-                            <div class="input-group mb-3">
-                                <input name="email" type="email" class="form-control" placeholder="Введите почту" aria-label="почта" aria-describedby="basic-addon2">
-                                <!--<span class="input-group-text" id="basic-addon2">@example.com</span>-->
-                            </div>
-
-                        </div>
-
-
-                        <div class="col-md-4 position-relative">
-                            <label for="validationTooltip05" class="form-label">Введите логин</label>
-                            <input name="username" type="text" class="form-control" id="validationTooltip05" required>
-                            <div class="invalid-tooltip">
-                                Please provide a valid zip.
-                            </div>
-                        </div>
-                        <div class="col-md-4 position-relative">
-                            <label for="validationTooltip06" class="form-label">Введите дополнительную информацию о себе</label>
-                            <textarea name="info" id="validationTooltip06" cols="30" rows="10"></textarea>
-                            <div class="invalid-tooltip">
-                                Please provide a valid zip.
-                            </div>
-                        </div>
-                        <div class="col-md-4 position-relative">
-                            <label for="image">Загрузите фото профиля</label>
-                            <input type="file" name="image" id="image">
-                        </div>
-                        <div>
-                            <label for="validationTooltip05" class="form-label">Пароль</label>
-                            <input name="password" type="password" class="form-control" placeholder="Введите пароль">
-                            <label for="validationTooltip05" class="form-label">Повторите пароль</label>
-                            <input name="password_repeat" type="password" class="form-control" placeholder="Введите пароль ещё раз">
-
-                        </div>
-                        <div class="col-12">
-                            <button class="btn btn-primary" type="submit">Зарегистрироваться</button>
-                        </div>
-                    <div>
-                        <h4 style="color:red">{{message}}</h4>
-                        {% for e in form.errors %}
-                        <p><b style='color:red'>{{e}}</b></p>
-                        {% endfor %}
-                    </div>
-
-
-                    <div>
-                        <p class="authorization__question">
-                            Уже есть аккаунт?
-                        <a href="{% url 'login' %}" class="link-primary link_offset-2 link-underline-opacity-25 link-underline-opacity-100-hover">Войти в аккаунт</a>
-                        </p>
-                    </div>
-                </div>
-            </form>
-        </div>
+    </div>
 </body>
 </html>
+
+<!--<div class="authorization__items">
+                <h2 class="authorization__title">
+                    Добро пожаловать!
+                </h2>
+                <p class="authorization__text">
+                    Пожалуйста, зарегистрируйтесь, чтобы получить доступ к возможностям приложения
+                </p>
+
+
+                    <div class="col-md-4 position-relative">
+                        <label for="validationTooltip01" class="form-label">Имя</label>
+                        <input name="first_name" type="text" class="form-control" id="validationTooltip01" placeholder="Введите имя" required>
+                        <div class="valid-tooltip">
+                            Looks good!
+                        </div>
+                    </div>
+
+                    <div class="col-md-4 position-relative">
+                        <label for="validationTooltip02" class="form-label">Фамилия</label>
+                        <input name="last_name" type="text" class="form-control" id="validationTooltip02" placeholder="Введите фамилию" required>
+                        <div class="valid-tooltip">
+                            Looks good!
+                        </div>
+                    </div>
+
+                    <div class="col-md-4 position-relative">
+                        <label for="email_id" class="form-label">Введите почту</label>
+
+                        <div class="input-group mb-3">
+                            <input id="email_id" name="email" type="email" class="form-control" placeholder="Введите почту" aria-label="почта" aria-describedby="basic-addon2">
+                            <span class="input-group-text" id="basic-addon2">@example.com</span>
+                        </div>
+
+                    </div>
+
+
+                    <div class="col-md-4 position-relative">
+                        <label for="validationTooltip05" class="form-label">Введите логин</label>
+                        <input name="username" type="text" class="form-control" id="validationTooltip05" required>
+                        <div class="invalid-tooltip">
+                            Please provide a valid zip.
+                        </div>
+                    </div>
+                    <div class="col-md-4 position-relative">
+                        <label for="validationTooltip06" class="form-label">Введите дополнительную информацию о себе</label>
+                        <textarea name="info" id="validationTooltip06" cols="30" rows="10"></textarea>
+                        <div class="invalid-tooltip">
+                            Please provide a valid zip.
+                        </div>
+                    </div>
+                    <div class="col-md-4 position-relative">
+                        <label for="id_image">Загрузите фото профиля</label>
+                        <input type="file" name="image" id="id_image" accept="image/*">
+                    </div>
+                    <div>
+                        <label for="validationTooltip05" class="form-label">Пароль</label>
+                        <input name="password" type="password" class="form-control" placeholder="Введите пароль">
+                        <label for="validationTooltip05" class="form-label">Повторите пароль</label>
+                        <input name="password_repeat" type="password" class="form-control" placeholder="Введите пароль ещё раз">
+
+                    </div>
+                    <div class="col-12">
+                        <button class="btn btn-primary" type="submit">Зарегистрироваться</button>
+                    </div>
+                <div>
+                    <h4 style="color:red">{{message}}</h4>
+                    {% for e in form.errors %}
+                    <p><b style='color:red'>{{e}}</b></p>
+                    {% endfor %}
+                </div>
+
+
+                <div>
+                    <p class="authorization__question">
+                        Уже есть аккаунт?
+                    <a href="{% url 'login' %}" class="link-primary link_offset-2 link-underline-opacity-25 link-underline-opacity-100-hover">Войти в аккаунт</a>
+                    </p>
+                </div>
+            </div>
+        </form>
+    </div>-->

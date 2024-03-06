@@ -42,3 +42,16 @@ def get_ideas(request):
                        'likes': idea.likes, 'dislikes': idea.dislikes} for idea in ideas]}
     print(data)
     return JsonResponse(data)
+
+
+def api_login(request):
+    if request.method == 'POST':
+        print('post on api login')
+        data = request.POST
+        login = data['login']
+        password = data['password']
+        print(login, password)
+
+    else:
+        print('get on api login')
+        return HttpResponse(status=200)

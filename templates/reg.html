@@ -8,13 +8,13 @@
 </head>
 <body>
     <div class="position-absolute top-0 start-50 translate-middle-x">
-        <form action="#" class="authorization__form" method="post">
+        <form action="#" enctype="multipart/form-data" class="authorization__form" method="post">
             {% csrf_token %}
 
             {{form.as_p}}
             <input type="submit" value="Зарегистрироваться">
         </form>
-
+        <p style="color:red">{{message}}</p>
     </div>
 </body>
 </html>

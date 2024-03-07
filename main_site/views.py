@@ -33,8 +33,6 @@ def registration_view(request):
                 context['message'] = f'Пароли не совпадают'
             elif not password_is_valid(form.data['password']):
                 context['message'] = f'Пароль ненадёжен'
-            elif not form.data['email']:
-                context['message'] = 'Введите электронную почту'
             else:
                 user = User(username=form.data['username'].lower(),
                             first_name=form.data['first_name'],
@@ -46,7 +44,8 @@ def registration_view(request):
                 user.save()
                 login(request, user)
                 return redirect('index')
-        context['message'] = 'form is not valid !!'
+        else:
+            context['message'] = 'form is not valid !!'
     else:
         form = RegisterForm()
     context['form'] = form
@@ -108,6 +107,6 @@ def profile_view(request):
                 idea.save()
     context = {
         'user': request.user,
-        'ideas': Idea.get_by_author(request.user)
+        'ideas': Idea.get_by_author(request.user)[::-1]
     }
     return render(request, 'profile.html', context)

@@ -1,10 +1,11 @@
-from django.forms import Form, CharField, Textarea, ImageField
+from django.forms import Form, CharField, Textarea, ImageField, EmailField
 
 
 class RegisterForm(Form):
     username = CharField(max_length=255, required=True)
     password = CharField(required=True)
     password_repeat = CharField(required=True)
+    email = EmailField(required=True)
     first_name = CharField(max_length=255, required=True)
     last_name = CharField(max_length=255, required=True)
     phone = CharField(max_length=20, required=False)

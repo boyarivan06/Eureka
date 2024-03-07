@@ -61,7 +61,7 @@ def login_view(request):
 
             user = User.get_by_username(form.data['username'])
             if not user:
-                user = User.get_by_email(form.data['email'])
+                user = User.get_by_email(form.data['username'])
             if not user or not user.check_password(form.data['password']):
                 context['message'] = 'Неверное имя пользователя или пароль'
             else:

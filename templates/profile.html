@@ -14,6 +14,7 @@
   <h3>{{user.username}}</h3>
   <h4>{{user.first_name}} {{user.last_name}}</h4>
   <p>{{user.info}}</p>
+    <img src="{{user.image.url}}" alt="нету картинки :(">
 </div>
 <a href="{% url 'new_idea' %}" class="btn btn-success">Добавить идею</a>
 <div class="container">
@@ -22,6 +23,7 @@
             <div class="card-body">
                 <form action="#" method="post">
                     {% csrf_token %}
+                    <input type="hidden" name="action_type" value="set_idea">
                     <input type="hidden" name="id" value="{{idea.id}}">
                     <h5 class="card-title"><input type="text" name="name" value="{{idea.name}}"></h5>
                     <textarea name="description" class="card-text">{{idea.description}}</textarea>

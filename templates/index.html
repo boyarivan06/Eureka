@@ -10,35 +10,72 @@
     <script src="{% static 'js/likes.js' %}"></script>
 </head>
 <body>
-    <h1>привет, это проджект эурека</h1>
     {% if user.is_authenticated %}
+    <nav class="navbar navbar-expand-md bg-dark sticky-top border-bottom" data-bs-theme="dark">
+        <div class="container" style="display: flex; align-items: center; justify-content: center;">
+          <ul class="nav justify-content-end" style="padding right: 50%">
+              <li>  <a href="{% url 'new_idea' %}" class="btn btn-success">Добавить идею</a></li>
+              <li><a href="{% url 'profile' %}" class="nav-link" style="color:white">Профиль</a></li>
+              <li><a class="nav-link" href="{% url 'logout' %}" style="color:white">Выйти</a></li>
+              <form class="d-flex" role="search">
+                <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+                <button class="btn btn-outline-success" type="submit"  style="color:white" >Search</button>
+              </form>
+          </ul>
+        </div>
+    </nav>
 
-    <ul class="nav justify-content-end">
-        <li><a href="{% url 'profile' %}" class="nav-link">Профиль</a></li>
-       <li><a class="nav-link" href="{% url 'logout' %}">Выйти</a></li>
-    </ul>
     <h3>{{user.first_name}} {{user.last_name}}</h3>
     {% else %}
     <a class="btn btn-secondary" href="{% url 'login' %}">Вход</a>
     <a class="btn btn-primary" href="{% url 'registration' %}">Регистрация</a>
     {% endif %}
-    <a href="{% url 'new_idea' %}" class="btn btn-success">Добавить идею</a>
-    <div class="container">
-        {% for idea in ideas %}
-        <div class="card">
-            <div class="card-body">
-                <h5 class="card-title">{{idea.name}}</h5>
-                <p class="card-text">{{idea.description}}</p>
-                <div class="button-group">
-                    <p class="btn btn-success" onclick="add_like({{idea.id}})">+</p>
-                    <p class="btn btn-danger" onclick="add_dislike({{idea.id}})">-</p>
-                </div>
-                <p class="p-2" id='likes{{idea.id}}' style="color:green; display:inline">{{idea.likes}}</p>
-                <p class="p-2" id='dislikes{{idea.id}}' style="color:red; display:inline">{{idea.dislikes}}</p>
 
-            </div>
+     <div class="album py-5 bg-body-tertiary">
+            <div class="container">
+                {% for idea in ideas %}
+                  <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+                        <div class="col">
+                                <div>
+                                      <div class="card shadow-sm">
+                                            <img class="card-img" src="{{idea.image.url}}" alt="">
+                                            <div class="card-body">
+                                                <h5 class="card-title">{{idea.name}}</h5>
+                                                <p class="card-text">{{idea.description}}</p>
+                                                <div class="d-flex  align-items-center">
+
+                                                    <div class="button-group">
+
+                                                        <button type="button" class="btn btn-success" onclick="add_like({{idea.id}})">
+                                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-emoji-heart-eyes" viewBox="0 0 16 16">
+                                                                <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16"></path>
+                                                                <path d="M11.315 10.014a.5.5 0 0 1 .548.736A4.5 4.5 0 0 1 7.965 13a4.5 4.5 0 0 1-3.898-2.25.5.5 0 0 1 .548-.736h.005l.017.005.067.015.252.055c.215.046.515.108.857.169.693.124 1.522.242 2.152.242s1.46-.118 2.152-.242a27 27 0 0 0 1.109-.224l.067-.015.017-.004.005-.002zM4.756 4.566c.763-1.424 4.02-.12.952 3.434-4.496-1.596-2.35-4.298-.952-3.434m6.488 0c1.398-.864 3.544 1.838-.952 3.434-3.067-3.554.19-4.858.952-3.434"></path>
+                                                            </svg>
+                                                        </button>
+
+                                                        <button type="button" class="btn btn-danger" onclick="add_dislike({{idea.id}})" style="backgroun">
+                                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-emoji-dizzy" viewBox="0 0 16 16">
+                                                                <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16"></path>
+                                                                <path d="M9.146 5.146a.5.5 0 0 1 .708 0l.646.647.646-.647a.5.5 0 0 1 .708.708l-.647.646.647.646a.5.5 0 0 1-.708.708l-.646-.647-.646.647a.5.5 0 1 1-.708-.708l.647-.646-.647-.646a.5.5 0 0 1 0-.708m-5 0a.5.5 0 0 1 .708 0l.646.647.646-.647a.5.5 0 1 1 .708.708l-.647.646.647.646a.5.5 0 1 1-.708.708L5.5 7.207l-.646.647a.5.5 0 1 1-.708-.708l.647-.646-.647-.646a.5.5 0 0 1 0-.708M10 11a2 2 0 1 1-4 0 2 2 0 0 1 4 0"></path>
+                                                            </svg>
+                                                        </button>
+
+                                                        <div class="container ">
+                                                            <p class="p-2" id='likes{{idea.id}}' style="color:green; display:inline">{{idea.likes}}</p>
+                                                            <p class="p-2" id='dislikes{{idea.id}}' style="color:red; display:inline">{{idea.dislikes}}</p>
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                      </div>
+                                </div>
+                        </div>
+                    </div>
+                {% endfor %}
+             </div>
         </div>
-        {% endfor %}
-    </div>
+
+
 </body>
 </html>

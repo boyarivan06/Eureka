@@ -1,5 +1,5 @@
 from django.contrib.auth import login, logout
-from django.http import JsonResponse
+# from django.http import JsonResponse
 from django.shortcuts import render, redirect
 from string import ascii_uppercase, ascii_lowercase, digits
 from django.contrib.auth.decorators import login_required
@@ -15,7 +15,7 @@ def password_is_valid(raw_password):
 def index_view(request):
     context = {
         'user': request.user,
-        'ideas': Idea.objects.all()
+        'ideas': Idea.get_all()[::-1]
     }
 
     return render(request, 'index.html', context)
@@ -25,27 +25,27 @@ def registration_view(request):
     context = {}
     if request.method == 'POST':
         print('catch post')
-        form = RegisterForm(request.POST)
-
+        form = RegisterForm(request.POST, request.FILES)
+        print(form.data)
         if form.is_valid():
             print('form is valid')
             if form.data['password'] != form.data['password_repeat']:
                 context['message'] = f'Пароли не совпадают'
             elif not password_is_valid(form.data['password']):
                 context['message'] = f'Пароль ненадёжен'
-            elif not form.data['email']:
-                context['message'] = 'Введите электронную почту'
             else:
                 user = User(username=form.data['username'].lower(),
                             first_name=form.data['first_name'],
                             last_name=form.data['last_name'],
-                            email=form.data['email'].lower()
+                            email=form.data['email'].lower(),
+                            image=form.files['image']
                             )
                 user.set_password(form.data['password'])
                 user.save()
                 login(request, user)
                 return redirect('index')
-        context['message'] = 'form is not valid !!'
+        else:
+            context['message'] = 'form is not valid !!'
     else:
         form = RegisterForm()
     context['form'] = form
@@ -59,9 +59,9 @@ def login_view(request):
         form = LoginForm(request.POST)
         if form.is_valid():
 
-            user = User.objects.filter(username=form.data['username']).first()
+            user = User.get_by_username(form.data['username'])
             if not user:
-                user = User.objects.filter(email=form.data['username'])
+                user = User.get_by_email(form.data['email'])
             if not user or not user.check_password(form.data['password']):
                 context['message'] = 'Неверное имя пользователя или пароль'
             else:
@@ -81,28 +81,32 @@ def logout_view(request):
 @login_required
 def new_idea_view(request):
     context = dict()
+    context['form'] = IdeaForm()
     if request.method == 'POST':
-        form = IdeaForm(request.POST)
+        form = IdeaForm(request.POST, request.FILES)
         if form.is_valid():
-            idea = Idea(name=form.data['name'], description=form.data['description'],
-                        author=request.user)
+            idea = Idea(name=form.data['name'],
+                        description=form.data['description'],
+                        author=request.user,
+                        image=form.files['image'])
             idea.save()
             return redirect('index')
-    context['form'] = IdeaForm()
+        context['form'] = form
     return render(request, 'new_idea.html', context)
 
 
 @login_required
 def profile_view(request):
     if request.method == 'POST':
-        form = SetIdeaForm(request.POST)
-        if form.is_valid():
-            idea = Idea.objects.filter(id=form.data['id']).first()
-            idea.name = form.data['name']
-            idea.description = form.data['description']
-            idea.save()
+        if request.POST['action_type'] == 'set_idea':
+            form = SetIdeaForm(request.POST)
+            if form.is_valid():
+                idea = Idea.get_by_id(form.data['id'])
+                idea.name = form.data['name']
+                idea.description = form.data['description']
+                idea.save()
     context = {
         'user': request.user,
-        'ideas': Idea.objects.filter(author=request.user).all()
+        'ideas': Idea.get_by_author(request.user)[::-1]
     }
     return render(request, 'profile.html', context)

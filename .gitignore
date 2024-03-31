@@ -1,5 +1,6 @@
 .idea
 venv
-__pycache__
+main_site/__pycache__
+main_site/migrations/__pycache__
 eureka/__pycache__
 db.sqlite3

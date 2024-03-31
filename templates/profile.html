@@ -17,6 +17,9 @@
     <img src="{{user.image.url}}" alt="нету картинки :(">
 </div>
 <a href="{% url 'new_idea' %}" class="btn btn-success">Добавить идею</a>
+{% if user.is_superuser %}
+<a href="/admin/" class="btn btn-info">Панель админа</a>
+{% endif %}
 <div class="container">
         {% for idea in ideas %}
         <div class="card" id="idea{{idea.id}}">

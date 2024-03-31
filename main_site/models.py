@@ -1,4 +1,5 @@
-from django.db.models import Model, CharField, IntegerField, ForeignKey, ManyToManyField, CASCADE, ImageField
+from django.db.models import Model, CharField, IntegerField, ForeignKey, ManyToManyField, CASCADE, ImageField, \
+    BooleanField
 from django.contrib.auth.models import AbstractUser
 
 
@@ -51,7 +52,10 @@ class Team(Model, BaseMethods):
     name = CharField(max_length=64)
     users = ManyToManyField(User)
 
+
 class Request(Model, BaseMethods):
-    text = CharField(max_length=250)
-    abonent = ForeignKey(to=User, on_delete=CASCADE, default=1, related_name='request_from')
-    author = ForeignKey(to=User, on_delete=CASCADE, default=1)
+    # text = CharField(max_length=250)
+    user_to = ForeignKey(to=User, on_delete=CASCADE, default=1, related_name='request_from')
+    user_from = ForeignKey(to=User, on_delete=CASCADE, default=1, related_name='request_to')
+    read = BooleanField(default=False)
+    idea = ForeignKey(to=Idea, on_delete=CASCADE, default=1)

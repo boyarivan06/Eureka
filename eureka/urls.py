@@ -33,7 +33,8 @@ urlpatterns = [
     path('add_like/<int:id>/', api_views.add_like),
     path('add_dislike/<int:id>/', api_views.add_dislike),
     path('delete_idea/<int:id>/', api_views.delete_idea),
-    path('api/index', api_views.get_ideas)
+    path('api/index/', api_views.get_ideas),
+    path('add_request/', api_views.add_request)
 ]
 
 

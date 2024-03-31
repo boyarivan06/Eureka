@@ -3,7 +3,7 @@ from django.http import JsonResponse, HttpResponse, HttpResponseForbidden
 from django.shortcuts import render, redirect
 from string import ascii_uppercase, ascii_lowercase, digits
 from django.contrib.auth.decorators import login_required
-from main_site.models import User, Idea
+from main_site.models import User, Idea, Request
 
 
 @login_required
@@ -42,3 +42,14 @@ def get_ideas(request):
                        'likes': idea.likes, 'dislikes': idea.dislikes} for idea in ideas]}
     print(data)
     return JsonResponse(data)
+
+
+@login_required
+def add_request(request):
+    if request.method == 'POST':
+        data = request.POST
+        r = Request(user_to=User.get_by_id(data['user_to']),
+                    user_from=User.get_by_id(data['user_from']),
+                    idea=Idea.get_by_id(data['idea_id']))
+        r.save()
+        return HttpResponse('Ok')

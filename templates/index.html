@@ -8,6 +8,7 @@
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
     {% load static %}
     <script src="{% static 'js/likes.js' %}"></script>
+    <script src="{% static 'js/add_req.js' %}"></script>
 </head>
 <body>
     {% if user.is_authenticated %}
@@ -42,6 +43,13 @@
                                             <div class="card-body">
                                                 <h5 class="card-title">{{idea.name}}</h5>
                                                 <p class="card-text">{{idea.description}}</p>
+                                                <form class="req" method="post" >
+                                                        {% csrf_token %}
+                                                        <input type="hidden" name="user_from" value="{{user.id}}">
+                                                        <input type="hidden" name="user_to" value="{{idea.author.id}}">
+                                                        <input type="hidden" name="idea_id" value="{{idea.id}}">
+                                                        <input type="submit" value="Предложить сотрудничество" class="btn btn-info">
+                                                </form>
                                                 <div class="d-flex  align-items-center">
 
                                                     <div class="button-group">

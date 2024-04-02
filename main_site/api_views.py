@@ -48,8 +48,7 @@ def get_ideas(request):
 def add_request(request):
     if request.method == 'POST':
         data = request.POST
-        r = Request(user_to=User.get_by_id(data['user_to']),
-                    user_from=User.get_by_id(data['user_from']),
+        r = Request(user_from=User.get_by_id(data['user_from']),
                     idea=Idea.get_by_id(data['idea_id']))
         r.save()
-        return HttpResponse('Ok')
+        return JsonResponse({'id': r.idea.id})

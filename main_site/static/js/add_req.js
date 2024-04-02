@@ -8,7 +8,7 @@ $(document).ready(function () {
                   url: "/add_request/",
                   // если успешно, то
                   success: function (response) {
-                      alert("Запрос на сотрудничество отправлен");
+                      appendAlert("Запрос на сотрудничество отправлен", 'success', response.id);
                   },
                   // если ошибка, то
                   error: function (response) {

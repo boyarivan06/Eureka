@@ -55,7 +55,6 @@ class Team(Model, BaseMethods):
 
 class Request(Model, BaseMethods):
     # text = CharField(max_length=250)
-    user_to = ForeignKey(to=User, on_delete=CASCADE, default=1, related_name='request_from')
     user_from = ForeignKey(to=User, on_delete=CASCADE, default=1, related_name='request_to')
     read = BooleanField(default=False)
     idea = ForeignKey(to=Idea, on_delete=CASCADE, default=1)

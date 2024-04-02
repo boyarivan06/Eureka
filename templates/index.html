@@ -9,21 +9,20 @@
     {% load static %}
     <script src="{% static 'js/likes.js' %}"></script>
     <script src="{% static 'js/add_req.js' %}"></script>
+    <script src="{% static 'js/alert.js' %}"></script>
 </head>
 <body>
     {% if user.is_authenticated %}
     <nav class="navbar navbar-expand-md bg-dark sticky-top border-bottom" data-bs-theme="dark">
-        <div class="container" style="display: flex; align-items: center; justify-content: center;">
-          <ul class="nav justify-content-end" style="padding right: 50%">
-              <li>  <a href="{% url 'new_idea' %}" class="btn btn-success">Добавить идею</a></li>
-              <li><a href="{% url 'profile' %}" class="nav-link" style="color:white">Профиль</a></li>
-              <li><a class="nav-link" href="{% url 'logout' %}" style="color:white">Выйти</a></li>
-              <form class="d-flex" role="search">
+        <ul class="nav justify-content-end">
+              <li class="nav-item"><a href="{% url 'new_idea' %}" class="btn btn-success">Добавить идею</a></li>
+              <li class="nav-item"><a href="{% url 'profile' %}" class="nav-link" style="color:white">Профиль</a></li>
+              <li class="nav-item"><a class="nav-link" href="{% url 'logout' %}" style="color:white">Выйти</a></li>
+              <!--<form class="d-flex" role="search">
                 <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
                 <button class="btn btn-outline-success" type="submit"  style="color:white" >Search</button>
-              </form>
-          </ul>
-        </div>
+              </form>-->
+        </ul>
     </nav>
 
     <h3>{{user.first_name}} {{user.last_name}}</h3>
@@ -43,13 +42,9 @@
                                             <div class="card-body">
                                                 <h5 class="card-title">{{idea.name}}</h5>
                                                 <p class="card-text">{{idea.description}}</p>
-                                                <form class="req" method="post" >
-                                                        {% csrf_token %}
-                                                        <input type="hidden" name="user_from" value="{{user.id}}">
-                                                        <input type="hidden" name="user_to" value="{{idea.author.id}}">
-                                                        <input type="hidden" name="idea_id" value="{{idea.id}}">
-                                                        <input type="submit" value="Предложить сотрудничество" class="btn btn-info">
-                                                </form>
+                                                <div id="liveAlertPlaceholder{{idea.id}}"></div>
+                                                <!--<button type="button" class="btn btn-primary" id="liveAlertBtn">Show live alert</button>-->
+
                                                 <div class="d-flex  align-items-center">
 
                                                     <div class="button-group">
@@ -76,6 +71,14 @@
 
                                                 </div>
                                             </div>
+                                          <div class="card-footer">
+                                              <form class="req" method="post" >
+                                                        {% csrf_token %}
+                                                        <input type="hidden" name="user_from" value="{{user.id}}">
+                                                        <input type="hidden" name="idea_id" value="{{idea.id}}">
+                                                        <input type="submit" value="Предложить сотрудничество" class="btn btn-info">
+                                                </form>
+                                          </div>
                                       </div>
                                 </div>
                         </div>

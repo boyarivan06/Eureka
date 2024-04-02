@@ -37,7 +37,7 @@ def delete_idea(request, id):
 
 def get_ideas(request):
     ideas = Idea.objects.all()
-    data = {'ideas': [{'id': idea.id, 'description':idea.description,
+    data = {'ideas': [{'id': idea.id, 'description': idea.description,
                        'name': idea.name, 'author_id': idea.author.id,
                        'likes': idea.likes, 'dislikes': idea.dislikes} for idea in ideas]}
     print(data)
@@ -48,7 +48,10 @@ def get_ideas(request):
 def add_request(request):
     if request.method == 'POST':
         data = request.POST
-        r = Request(user_from=User.get_by_id(data['user_from']),
-                    idea=Idea.get_by_id(data['idea_id']))
-        r.save()
-        return JsonResponse({'id': r.idea.id})
+        if not Request.objects.filter(user_from=User.get_by_id(data['user_from']),
+                                      idea=Idea.get_by_id(data['idea_id'])):
+            r = Request(user_from=User.get_by_id(data['user_from']),
+                        idea=Idea.get_by_id(data['idea_id']))
+            r.save()
+            return JsonResponse({'id': r.idea.id})
+        return HttpResponseForbidden('request exists')

@@ -12,9 +12,9 @@ $(document).ready(function () {
                   },
                   // если ошибка, то
                   error: function (response) {
-                      // предупредим об ошибке
-                      alert(response.responseJSON.errors);
-                      console.log(response.responseJSON.errors)
+                        if (response.status != 403) {
+                            alert(response.responseJSON.errors);
+                        }
                   }
               });
               return false;

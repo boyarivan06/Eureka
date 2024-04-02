@@ -1,3 +1,7 @@
+function sleep(ms) {
+  return new Promise(resolve => setTimeout(resolve, ms));
+}
+
 const appendAlert = (message, type, id) => {
   const wrapper = document.createElement('div')
   wrapper.innerHTML = [
@@ -8,4 +12,5 @@ const appendAlert = (message, type, id) => {
     ].join('')
     var alertPlaceholder = document.getElementById('liveAlertPlaceholder'+id)
     alertPlaceholder.append(wrapper)
+    sleep(5000).then(() => {alertPlaceholder.innerHTML = "";})
 }
